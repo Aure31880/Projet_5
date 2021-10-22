@@ -11,4 +11,6 @@ class ServiceProduct {
             .then(data => data.json())
             .then(product => new Product(product));
     }
+
+
 }

@@ -12,4 +12,5 @@ class Product {
         }).format(price);
         return price;
     }
+
 }
