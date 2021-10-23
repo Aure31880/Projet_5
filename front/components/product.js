@@ -1,18 +1,18 @@
 
-async function getProduct() {
-    const prod = new ServiceProduct();
+// Get the id, return the product and this details
+async function showProduct() {
+  const prod = new ServiceProduct();
 
-    let params = (new URL(document.location)).searchParams;
-    const productId = params.get("_id");
+  let params = (new URL(document.location)).searchParams;
+  const productId = params.get("_id");
 
-    const product = await prod.fetchOne(productId);
-    // console.log(Object.values(product.colors))
-    // const colorProd = Object.values(product.colors);
-    console.log(product);
+  const product = await prod.fetchOne(productId);
 
-    document.getElementById("item_productPage").innerHTML +=
+  console.log(product);
 
-        `
+  document.getElementById("item_productPage").innerHTML +=
+
+    `
       <article>
         <div class="item__img">
           <img src="${product.imageUrl}" alt="Photographie d'un canapé">
@@ -37,7 +37,7 @@ async function getProduct() {
 
           <div class="item__content__settings">
             <div class="item__content__settings__color">
-              <label for="color-select">Choisir une taille :</label>
+              <label for="color-select">Choisir une couleur :</label>
               <select name="color-select" id="colors"></select>
             </div>
 
@@ -55,23 +55,32 @@ async function getProduct() {
       </article>
     `
 
+  // Get color array for select
+  function getColor(item) {
+    const showColor = document.getElementById("colors");
+    for (let color of product.colors) {
+      showColor.innerHTML +=
+        `
+                    <option value="">${color}</option>
 
-    function getColor(item) {
-        const showColor = document.getElementById("colors");
-        for (let color of product.colors) {
-            showColor.innerHTML +=
                 `
-            <option value="">${color}</option>
-
-
-            `
-        }
-
     }
-    getColor();
+
+  }
+  getColor();
+
+  // function addProduct(product) {
+  //   const btnAdd = document.getElementById("addToCart");
+  //   btnAdd.addEventListener('click', function (e) {
+
+
+  //   })
+  // }
+  // addProduct();
+
 }
 
-getProduct();
+showProduct();
 
 
 
