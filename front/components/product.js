@@ -43,40 +43,53 @@ async function showProduct() {
 
             <div class="item__content__settings__quantity">
               <label for="itemQuantity">Nombre d'article(s) (1-100) :</label>
-              <input type="number" name="itemQuantity" min="1" max="100" value="0" id="quantity">
+              <input type="number" name="itemQuantity" min="1" max="100" value="1" id="quantity">
             </div>
           </div>
 
           <div class="item__content__addButton">
-            <button id="addToCart">Ajouter au panier</button>
+            <button id="addToCart" data-id="${product._id}">Ajouter au panier</button>
           </div>
 
         </div>
       </article>
     `
 
+  const showColor = document.querySelector("#colors");
+
   // Get color array for select
-  function getColor(item) {
-    const showColor = document.getElementById("colors");
+  function getColor() {
     for (let color of product.colors) {
       showColor.innerHTML +=
         `
-                    <option value="">${color}</option>
+                    <option value="${color}">${color}</option>
 
                 `
     }
-
   }
   getColor();
 
-  // function addProduct(product) {
-  //   const btnAdd = document.getElementById("addToCart");
-  //   btnAdd.addEventListener('click', function (e) {
+  const btnAdd = document.getElementById("addToCart");
+  btnAdd.addEventListener('click', function () {
+    const colorChoice = showColor.value;
+    console.log(colorChoice);
 
+    const qt = document.getElementById("quantity")
+    const quantity = qt.value;
 
-  //   })
-  // }
-  // addProduct();
+    let singleProduct = {
+      id: product._id,
+      image: product.imageUrl,
+      name: product.name,
+      option: colorChoice,
+      price: product.getPriceFormat(),
+      quantity: quantity
+    };
+    console.log(singleProduct);
+    prod.addToShoppingList(singleProduct);
+
+  })
+
 
 }
 

@@ -1,4 +1,5 @@
 class Product {
+
     constructor(productList) {
         productList && Object.assign(this, productList)
     }
