@@ -20,17 +20,18 @@ class ServiceProduct {
 
         console.log(product.id);
         var prod = shoppingList.findIndex(item => item.id === product.id)
-        let qt = product.quantity;
         console.log(prod);
+
         if (prod === 0) {
             console.log(product.quantity);
-            qt++;
+            const newArr = shoppingList.filter(arr => arr.quantity++);
             console.log("existe déjà !");
         } else {
             shoppingList.push(product)
             console.log("Nouveau produit !");
 
         }
+
         this.saveshoppingList(shoppingList)
 
     }
