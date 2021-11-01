@@ -18,21 +18,26 @@ class ServiceProduct {
     addToShoppingList(product) {
         let shoppingList = this.getShoppingList();
 
-        console.log(product.id);
-        var prod = shoppingList.findIndex(item => item.id === product.id)
-        console.log(prod);
+        shoppingList.push(product);
+        this.saveshoppingList(shoppingList);
 
-        if (prod === 0) {
-            console.log(product.quantity);
-            const newArr = shoppingList.filter(arr => arr.quantity++);
-            console.log("existe déjà !");
-        } else {
-            shoppingList.push(product)
-            console.log("Nouveau produit !");
+    }
 
-        }
+    updateProduct(product) {
+        let shoppingList = this.getShoppingList()
 
-        this.saveshoppingList(shoppingList)
+        shoppingList = shoppingList.filter(el => el.id === product.id);
+        console.log(shoppingList);
+        return product.quantity++;
+        // for (let prod of shoppingList) {
+        //     if (prod.id != 'undefined') {
+        //         const addQt = parseInt(prod.quantity, 10) + 1;
+        //         console.log(addQt);
+        //     }
+        // }
+        // if (shoppingList) {
+        //     console.log(produc.quantity);
+        // }
 
     }
 
@@ -44,8 +49,6 @@ class ServiceProduct {
     }
 
     getShoppingList() {
-        // return JSON.parse(localStorage?.shoppingList || null).map(async id => await this.fetchOne(id)) ?? [];
-
         let shoppingList = localStorage.getItem("shoppingList");
 
         if (shoppingList == null) {
@@ -56,8 +59,6 @@ class ServiceProduct {
     }
 
     getShoppingProductId() {
-        // return this.getShoppingList().map(async product => await this.fetchOne(product));
-
         return this.getShoppingList().map(product => product.id);
     }
 

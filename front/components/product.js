@@ -69,26 +69,76 @@ async function showProduct() {
   }
   getColor();
 
-  const btnAdd = document.getElementById("addToCart");
-  btnAdd.addEventListener('click', function () {
-    const colorChoice = showColor.value;
-    console.log(colorChoice);
+  // document.querySelectorAll("#addToCart").forEach(el => {
+  //   el.addEventListener('click', function (e) {
+  //     e.preventDefault();
+  //     const colorChoice = showColor.value;
+  //     console.log(colorChoice);
 
-    const qt = document.getElementById("quantity")
-    const quantity = qt.value;
+  //     const qt = document.getElementById("quantity")
+  //     const quantity = qt.value;
 
-    let singleProduct = {
-      id: product._id,
-      image: product.imageUrl,
-      name: product.name,
-      option: colorChoice,
-      price: product.getPriceFormat(),
-      quantity: quantity
-    };
-    console.log(singleProduct);
-    prod.addToShoppingList(singleProduct);
+  //     let singleProduct = {
+  //       id: product._id,
+  //       image: product.imageUrl,
+  //       name: product.name,
+  //       option: colorChoice,
+  //       price: product.getPriceFormat(),
+  //       quantity: quantity
+  //     };
+  //     console.log(singleProduct);
+  //     prod.addToShoppingList(singleProduct);
 
-  })
+  //   })
+  // })
+
+  function addProduct(item) {
+    // each click get product info and bind singleProduct with values
+    document.querySelectorAll("#addToCart").forEach(el => {
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        const colorChoice = showColor.value;
+        console.log(colorChoice);
+
+        const qt = document.getElementById("quantity")
+        const quantity = qt.value;
+
+        let singleProduct = {
+          id: product._id,
+          image: product.imageUrl,
+          name: product.name,
+          option: colorChoice,
+          price: product.getPriceFormat(),
+          quantity: quantity
+        };
+        console.log(singleProduct);
+
+        const idExist = prod.getShoppingList();
+        console.log(idExist);
+        var prodIndex = idExist.findIndex(item => item.id === singleProduct.id)
+        console.log(prodIndex);
+
+        if (prodIndex != -1) {
+
+          console.log("existe déjà !");
+          prod.updateProduct(singleProduct);
+        } else {
+          console.log("Nouveau produit !");
+
+          prod.addToShoppingList(singleProduct);
+
+        }
+
+      })
+    })
+
+  }
+  addProduct();
+
+
+
+
+
 
 
 }
