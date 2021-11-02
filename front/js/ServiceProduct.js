@@ -23,21 +23,12 @@ class ServiceProduct {
 
     }
 
-    updateProduct(product) {
+    updateProduct(prodQtty) {
         let shoppingList = this.getShoppingList()
 
-        shoppingList = shoppingList.filter(el => el.id === product.id);
+        shoppingList = shoppingList.filter(el => el.quantity === prodQtty);
         console.log(shoppingList);
-        return product.quantity++;
-        // for (let prod of shoppingList) {
-        //     if (prod.id != 'undefined') {
-        //         const addQt = parseInt(prod.quantity, 10) + 1;
-        //         console.log(addQt);
-        //     }
-        // }
-        // if (shoppingList) {
-        //     console.log(produc.quantity);
-        // }
+        this.saveshoppingList(shoppingList);
 
     }
 

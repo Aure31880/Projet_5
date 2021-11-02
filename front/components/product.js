@@ -67,52 +67,34 @@ async function showProduct() {
                 `
     }
   }
+
   getColor();
 
-  // document.querySelectorAll("#addToCart").forEach(el => {
-  //   el.addEventListener('click', function (e) {
-  //     e.preventDefault();
-  //     const colorChoice = showColor.value;
-  //     console.log(colorChoice);
+  // get color option selected by user
+  const colorChoice = showColor.value;
 
-  //     const qt = document.getElementById("quantity")
-  //     const quantity = qt.value;
+  // get quantity selected by user
+  const qt = document.getElementById("quantity")
+  const quantity = qt.value;
 
-  //     let singleProduct = {
-  //       id: product._id,
-  //       image: product.imageUrl,
-  //       name: product.name,
-  //       option: colorChoice,
-  //       price: product.getPriceFormat(),
-  //       quantity: quantity
-  //     };
-  //     console.log(singleProduct);
-  //     prod.addToShoppingList(singleProduct);
-
-  //   })
-  // })
+  // create new product 
+  let singleProduct = {
+    id: product._id,
+    image: product.imageUrl,
+    name: product.name,
+    option: colorChoice,
+    price: product.getPriceFormat(),
+    quantity: quantity
+  };
+  console.log(singleProduct);
 
   function addProduct(item) {
     // each click get product info and bind singleProduct with values
     document.querySelectorAll("#addToCart").forEach(el => {
       el.addEventListener('click', function (e) {
         e.preventDefault();
-        const colorChoice = showColor.value;
-        console.log(colorChoice);
 
-        const qt = document.getElementById("quantity")
-        const quantity = qt.value;
-
-        let singleProduct = {
-          id: product._id,
-          image: product.imageUrl,
-          name: product.name,
-          option: colorChoice,
-          price: product.getPriceFormat(),
-          quantity: quantity
-        };
-        console.log(singleProduct);
-
+        // get shoppingList by localStorage
         const idExist = prod.getShoppingList();
         console.log(idExist);
         var prodIndex = idExist.findIndex(item => item.id === singleProduct.id)
@@ -121,7 +103,11 @@ async function showProduct() {
         if (prodIndex != -1) {
 
           console.log("existe déjà !");
-          prod.updateProduct(singleProduct);
+          // parse quantity for incremement product
+          const getQuantity = parseInt(singleProduct.quantity++);
+          console.log(getQuantity);
+          // const newQuantity = getQuantity.toString();
+          prod.updateProduct(newQuantity);
         } else {
           console.log("Nouveau produit !");
 
@@ -134,12 +120,6 @@ async function showProduct() {
 
   }
   addProduct();
-
-
-
-
-
-
 
 }
 
