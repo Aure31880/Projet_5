@@ -70,49 +70,54 @@ async function showProduct() {
 
   getColor();
 
-  // get color option selected by user
-  const colorChoice = showColor.value;
-
-  // get quantity selected by user
-  const qt = document.getElementById("quantity")
-  const quantity = qt.value;
-
-  // create new product 
-  let singleProduct = {
-    id: product._id,
-    image: product.imageUrl,
-    name: product.name,
-    option: colorChoice,
-    price: product.getPriceFormat(),
-    quantity: quantity
-  };
-  console.log(singleProduct);
-
   function addProduct(item) {
     // each click get product info and bind singleProduct with values
     document.querySelectorAll("#addToCart").forEach(el => {
       el.addEventListener('click', function (e) {
         e.preventDefault();
 
+        // get color option selected by user
+        const colorChoice = showColor.value;
+        // get quantity selected by user
+        const qt = document.getElementById("quantity")
+        const quantity = qt.value;
+
+        // create new product 
+        let singleProduct = {
+          id: product._id,
+          image: product.imageUrl,
+          name: product.name,
+          option: colorChoice,
+          price: product.getPriceFormat(),
+          quantity: quantity
+        };
+        console.log(singleProduct);
+
         // get shoppingList by localStorage
-        const idExist = prod.getShoppingList();
-        console.log(idExist);
-        var prodIndex = idExist.findIndex(item => item.id === singleProduct.id)
-        console.log(prodIndex);
+        const prodExist = prod.getShoppingList();
+        for (let el of prodExist) {
 
-        if (prodIndex != -1) {
+          console.log(el.option);
+          const elOption = el.option;
+          var prodIndex = prodExist.findIndex(item => item.id === singleProduct.id);
+          console.log(prodIndex);
+          const colorGetByUser = singleProduct.option;
+          console.log(colorGetByUser);
 
-          console.log("existe déjà !");
-          // parse quantity for incremement product
-          const getQuantity = parseInt(singleProduct.quantity++);
-          console.log(getQuantity);
-          // const newQuantity = getQuantity.toString();
-          prod.updateProduct(newQuantity);
-        } else {
-          console.log("Nouveau produit !");
+          if (prodIndex != -1 && elOption === colorGetByUser) {
 
-          prod.addToShoppingList(singleProduct);
 
+            console.log("existe déjà !");
+            // parse quantity for incremement product
+            // const getQuantity = parseInt(singleProduct.quantity++);
+            // console.log(getQuantity);
+            // prod.updateProduct(getQuantity);
+          } else {
+            console.log("Nouveau produit !");
+
+            prod.addToShoppingList(singleProduct);
+
+          }
         }
 
       })

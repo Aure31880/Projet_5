@@ -26,8 +26,13 @@ class ServiceProduct {
     updateProduct(prodQtty) {
         let shoppingList = this.getShoppingList()
 
-        shoppingList = shoppingList.filter(el => el.quantity === prodQtty);
-        console.log(shoppingList);
+        const upQuantity = JSON.parse(JSON.stringify(prodQtty));
+        for (let prod of shoppingList) {
+            const qtt = prod.quantity;
+
+            qtt.filter(qty = qty === upQuantity);
+
+        }
         this.saveshoppingList(shoppingList);
 
     }
