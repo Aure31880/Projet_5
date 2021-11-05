@@ -15,6 +15,7 @@ class ServiceProduct {
 
     }
 
+    // Add product in the localStorage
     addToShoppingList(product) {
         let shoppingList = this.getShoppingList();
 
@@ -23,20 +24,16 @@ class ServiceProduct {
 
     }
 
-    updateProduct(prodQtty) {
-        let shoppingList = this.getShoppingList()
+    // Update quantities of element in the localStorage 
+    updateProduct(prodId, prodQtty) {
+        console.log(prodId);
+        console.log(prodQtty);
 
-        const upQuantity = JSON.parse(JSON.stringify(prodQtty));
-        for (let prod of shoppingList) {
-            const qtt = prod.quantity;
-
-            qtt.filter(qty = qty === upQuantity);
-
-        }
-        this.saveshoppingList(shoppingList);
+        // this.saveshoppingList(shoppingList);
 
     }
 
+    // Remove an element in the localStorage
     removeProduct(productId) {
         let shoppingList = this.getShoppingList();
         shoppingList = shoppingList.filter(product => product.id != productId)
@@ -44,6 +41,7 @@ class ServiceProduct {
         return location.reload();
     }
 
+    // Get all elements in the localStorage
     getShoppingList() {
         let shoppingList = localStorage.getItem("shoppingList");
 
@@ -54,10 +52,12 @@ class ServiceProduct {
         }
     }
 
+    // Get one element by id in the localStorage
     getShoppingProductId() {
         return this.getShoppingList().map(product => product.id);
     }
 
+    // Save shoppingList in the localStorage
     saveshoppingList(shoppingList) {
         localStorage.setItem("shoppingList", JSON.stringify(shoppingList))
     }

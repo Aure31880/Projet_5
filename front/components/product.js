@@ -71,18 +71,20 @@ async function showProduct() {
   getColor();
 
   function addProduct(item) {
+
     // each click get product info and bind singleProduct with values
     document.querySelectorAll("#addToCart").forEach(el => {
       el.addEventListener('click', function (e) {
         e.preventDefault();
 
-        // get color option selected by user
+        // Get color option selected by user
         const colorChoice = showColor.value;
+
         // get quantity selected by user
         const qt = document.getElementById("quantity")
         const quantity = qt.value;
 
-        // create new product 
+        // Create new product
         let singleProduct = {
           id: product._id,
           image: product.imageUrl,
@@ -91,27 +93,34 @@ async function showProduct() {
           price: product.getPriceFormat(),
           quantity: quantity
         };
-        console.log(singleProduct);
+        // console.log(singleProduct);
 
-        // get shoppingList by localStorage
-        const prodExist = prod.getShoppingList();
-        for (let el of prodExist) {
+        const prodList = prod.getShoppingList();
+        console.log(prodList);
 
-          console.log(el.option);
-          const elOption = el.option;
-          var prodIndex = prodExist.findIndex(item => item.id === singleProduct.id);
-          console.log(prodIndex);
-          const colorGetByUser = singleProduct.option;
-          console.log(colorGetByUser);
+        var getEl = prodList.filter(el => el.id === singleProduct.id);
 
-          if (prodIndex != -1 && elOption === colorGetByUser) {
+        if (getEl != null) {
+          var prodExist = getEl.filter(el => el.option === singleProduct.option);
+          console.log(prodExist);
 
+          if (prodExist != false) {
 
             console.log("existe déjà !");
-            // parse quantity for incremement product
-            // const getQuantity = parseInt(singleProduct.quantity++);
-            // console.log(getQuantity);
-            // prod.updateProduct(getQuantity);
+            for (var el of prodExist) {
+              console.log(el.option + " " + el.quantity);
+              // parse quantity for incremement product
+              const getQuantity = parseInt(el.quantity);
+              console.log(getQuantity);
+
+              // recuperer la valeur input de quantité et l'ajouter à qetQuantity avant de l'injecter dans l'objet
+              const addQty = parseInt(quantity);
+              console.log(addQty);
+
+              // const strgProd = getQuantity.toString();
+              // console.log(strgProd);
+              prod.updateProduct(el, getQuantity);
+            }
           } else {
             console.log("Nouveau produit !");
 
@@ -119,10 +128,8 @@ async function showProduct() {
 
           }
         }
-
       })
     })
-
   }
   addProduct();
 
