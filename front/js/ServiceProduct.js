@@ -25,12 +25,10 @@ class ServiceProduct {
     }
 
     // Update quantities of element in the localStorage 
-    updateProduct(prodId, prodQtty) {
-        console.log(prodId);
-        console.log(prodQtty);
+    updateProduct(shoppingListUpdate) {
+        let shoppingList = shoppingListUpdate;
 
-        // this.saveshoppingList(shoppingList);
-
+        this.saveshoppingList(shoppingList);
     }
 
     // Remove an element in the localStorage

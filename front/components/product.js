@@ -7,8 +7,7 @@ async function showProduct() {
   const productId = params.get("_id");
 
   const product = await prod.fetchOne(productId);
-
-  console.log(product);
+  // console.log(product);
 
   document.getElementById("item_productPage").innerHTML +=
 
@@ -98,7 +97,7 @@ async function showProduct() {
         const prodList = prod.getShoppingList();
         console.log(prodList);
 
-        var getEl = prodList.filter(el => el.id === singleProduct.id);
+        const getEl = prodList.filter(el => el.id === singleProduct.id);
 
         if (getEl != null) {
           var prodExist = getEl.filter(el => el.option === singleProduct.option);
@@ -106,20 +105,25 @@ async function showProduct() {
 
           if (prodExist != false) {
 
-            console.log("existe déjà !");
             for (var el of prodExist) {
+              console.log("existe déjà !");
+
               console.log(el.option + " " + el.quantity);
               // parse quantity for incremement product
               const getQuantity = parseInt(el.quantity);
               console.log(getQuantity);
-
               // recuperer la valeur input de quantité et l'ajouter à qetQuantity avant de l'injecter dans l'objet
               const addQty = parseInt(quantity);
               console.log(addQty);
+              console.log(quantity);
 
-              // const strgProd = getQuantity.toString();
-              // console.log(strgProd);
-              prod.updateProduct(el, getQuantity);
+              const showQty = addQty + getQuantity;
+              console.log(showQty);
+              el.quantity = showQty.toString();
+              console.log(prodList);
+
+              prod.updateProduct(prodList);
+
             }
           } else {
             console.log("Nouveau produit !");
