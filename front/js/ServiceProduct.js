@@ -1,4 +1,4 @@
-class ServiceProduct {
+class ServiceProduct extends Product {
 
     // Get all items
     async fetchAll() {
@@ -29,6 +29,8 @@ class ServiceProduct {
         let shoppingList = shoppingListUpdate;
 
         this.saveshoppingList(shoppingList);
+        return location.reload();
+
     }
 
     // Remove an element in the localStorage

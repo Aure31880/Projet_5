@@ -89,7 +89,7 @@ async function showProduct() {
           image: product.imageUrl,
           name: product.name,
           option: colorChoice,
-          price: product.getPriceFormat(),
+          price: product.price.toString(),
           quantity: quantity
         };
         // console.log(singleProduct);

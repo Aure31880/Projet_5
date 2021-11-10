@@ -11,7 +11,7 @@ async function showProducts() {
                         <img class="home_item_img" src="${product.imageUrl}">
                         <h3 class="productName"> ${product.name}</h3 >
                         <p class="productDescription">${product.description}</p>
-                        <p>${product.getPriceFormat()}€</p>
+                        <p>${product.price}€</p>
                     </article >
                 </a >
             

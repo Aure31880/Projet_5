@@ -1,18 +1,11 @@
 class Product {
-
-    constructor(productList) {
-        productList && Object.assign(this, productList)
+    constructor(product) {
+        product && Object.assign(this, product)
     }
 
-    // Convert price 
-    getPriceFormat(product) {
-        let price = this.price;
-        price = new Intl.NumberFormat("fr-FR", {
-            style: "currency",
-            currency: "EUR",
-            minimumFractionDigits: 2,
-        }).format(price);
-        return price;
+    getPriceFormat() {
+        return this.price.toLocaleString('fr-FR', {
+            minimumFractionDigits: 2
+        });
     }
-
 }
