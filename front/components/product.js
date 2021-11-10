@@ -47,7 +47,7 @@ async function showProduct() {
           </div>
 
           <div class="item__content__addButton">
-            <button id="addToCart" data-id="${product._id}">Ajouter au panier</button>
+            <button id="addToCart"">Ajouter au panier</button>
           </div>
 
         </div>

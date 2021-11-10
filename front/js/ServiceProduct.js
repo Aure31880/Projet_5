@@ -32,9 +32,12 @@ class ServiceProduct {
     }
 
     // Remove an element in the localStorage
-    removeProduct(productId) {
-        let shoppingList = this.getShoppingList();
-        shoppingList = shoppingList.filter(product => product.id != productId)
+    removeProduct(arr, product) {
+        let shoppingList = arr;
+        shoppingList = shoppingList.filter(function (el) {
+            return el != product;
+        });
+
         this.saveshoppingList(shoppingList)
         return location.reload();
     }
@@ -42,7 +45,6 @@ class ServiceProduct {
     // Get all elements in the localStorage
     getShoppingList() {
         let shoppingList = localStorage.getItem("shoppingList");
-
         if (shoppingList == null) {
             return [];
         } else {
