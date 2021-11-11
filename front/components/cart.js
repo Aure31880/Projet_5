@@ -57,6 +57,7 @@ async function shoppingList() {
         // console.log(tabParse);
 
         const reducer = (accumulator, curr) => accumulator + curr;
+        console.log(reducer);
         const showAllQuantity = tabParse.reduce(reducer);
         document.getElementById('totalQuantity').innerHTML = showAllQuantity;
 
@@ -97,9 +98,10 @@ async function shoppingList() {
       cart.forEach(product => {
         // console.log(product);
 
-        productFilter = cart.filter(function (prod, property) {
-          return ((prod["id"] === product.id && prod["quantity"] === product.quantity && prod["price"] === product.price));
+        productFilter = cartParse.filter(function (prod, property) {
+          return ((prod["id"] === product.id && prod["option"] === product.option && prod["quantity"] === product.quantity && prod["price"] === product.price));
         })
+        console.log(productFilter);
         for (let el of productFilter) {
           var qtyParse = parseInt(el.quantity);
           var priceParse = parseInt(el.price);
@@ -149,6 +151,10 @@ async function shoppingList() {
     if (updateQuantity()) {
       getTotalAmount();
     }
+  }
+
+  function regexForm() {
+    return /(^[A-Z].[a-z])/g
   }
 }
 
