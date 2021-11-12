@@ -10,7 +10,6 @@ async function shoppingList() {
 
 
   for (let prodCart of cartParse) {
-    // console.log(prodCart.id);
     document.getElementById("cart__items").innerHTML +=
       `
                 <article class="cart__item" ">
@@ -57,7 +56,7 @@ async function shoppingList() {
         // console.log(tabParse);
 
         const reducer = (accumulator, curr) => accumulator + curr;
-        console.log(reducer);
+        // console.log(reducer);
         const showAllQuantity = tabParse.reduce(reducer);
         document.getElementById('totalQuantity').innerHTML = showAllQuantity;
 
@@ -101,14 +100,14 @@ async function shoppingList() {
         productFilter = cartParse.filter(function (prod, property) {
           return ((prod["id"] === product.id && prod["option"] === product.option && prod["quantity"] === product.quantity && prod["price"] === product.price));
         })
-        console.log(productFilter);
+
         for (let el of productFilter) {
           var qtyParse = parseInt(el.quantity);
           var priceParse = parseInt(el.price);
-          console.log(qtyParse * priceParse);
+          // console.log(qtyParse * priceParse);
           totalAmount = qtyParse * priceParse;
           arrTotalAmount.push(totalAmount);
-          console.log(arrTotalAmount);
+          // console.log(arrTotalAmount);
 
           const reducer = (accumulator, curr) => accumulator + curr;
           const showAllQuantity = arrTotalAmount.reduce(reducer);
@@ -136,10 +135,10 @@ async function shoppingList() {
           })
           // console.log(el.value);
           for (let prod of productToUpdate) {
-            console.log(prod.quantity);
+            // console.log(prod.quantity);
             prod.quantity = el.value;
             // console.log(prod);
-            console.log(cart);
+            // console.log(cart);
             serviceProduct.updateProduct(cart);
           }
         })
@@ -153,8 +152,92 @@ async function shoppingList() {
     }
   }
 
-  function regexForm() {
-    return /(^[A-Z].[a-z])/g
+  function regexFormName(value) {
+    return /(^[A-Z])/.test(value)
+  }
+
+  function validForm() {
+    // var regFirstName = /(^[A-Z]+[a-zàáâãäåòóôõöøèéêëçìíîïùúûüÿñ]+)$/g
+    // var regName = /(^[A-Z]+[a-zàáâãäåòóôõöøèéêëçìíîïùúûüÿñ]+)$/g
+    // var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    var getName = document.getElementById('lastName');
+    var firstName = document.getElementById('firstName');
+    var address = document.getElementById('address');
+    var email = document.getElementById('email');
+    var firstNameErrorMsg = document.getElementById('firstNameErrorMsg');
+    var nameErrorMsg = document.getElementById('lastNameErrorMsg');
+    var addressErrorMsg = document.getElementById('addressErrorMsg');
+    var verifRegFirstName = null;
+    var verifRegName = null;
+    var verifRegEmail = null;
+
+    // let input = document.querySelectorAll("div.cart__order__form__question > input[name]");
+    // console.log(input);
+    let subOrder = document.querySelectorAll('#order');
+    subOrder.forEach(elBtn => {
+      elBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        var arrError = [];
+        verifRegFirstName = validNameInput(firstName.value)
+        // console.log(verifRegFirstName);
+        verifRegName = validNameInput(getName.value);
+        // console.log(verifRegName);
+        verifRegCity = validAdressInput(address.value);
+        console.log(verifRegCity);
+        verifRegEmail = validEmailInput(email.value);
+        console.log(verifRegEmail);
+
+
+        if (firstName.value.length <= 2 || firstName.value.length >= 24) {
+          arrError.push("Votre prénom doit comporter entre 2 et 20 caractères !");
+          firstNameErrorMsg.innerText = arrError;
+          return false
+        }
+
+        if (verifRegFirstName != true) {
+          arrError.push("Votre prénom ne doit pas comporter de chiffre ou de caractères spéciaux !");
+          firstNameErrorMsg.innerText = arrError;
+          return false
+        }
+
+
+        if (getName.value.length <= 2 || getName.value.length >= 24) {
+          arrError.push("Votre Nom doit comporter entre 2 et 20 caractères !");
+          nameErrorMsg.innerText = arrError;
+          return false
+        }
+        if (verifRegName != true) {
+          arrError.push("Votre Nom ne doit pas comporter de chiffre ou de caractères spéciaux !");
+          nameErrorMsg.innerText = arrError;
+          return false
+        }
+
+        if (verifRegCity != true) {
+          arrError.push("Vous devez renseigner une adresse valide !");
+          addressErrorMsg.innerText = arrError;
+        }
+
+        if (arrError.length >= 0) {
+          e.preventDefault();
+          return arrError.join(', ');
+        }
+      })
+    })
+
+
+  }
+  validForm();
+
+  function validNameInput(value) {
+    return /(^[A-Z]+[a-zàáâãäåòóôõöøèéêëçìíîïùúûüÿñ]+)$/g.test(value);
+  }
+
+  function validAdressInput(value) {
+    return /([0-9 A-Za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð])$/g.test(value);
+  }
+
+  function validEmailInput(value) {
+    return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value);
   }
 }
 
