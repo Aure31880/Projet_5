@@ -1,5 +1,4 @@
 class ServiceProduct extends Product {
-
     // Get all items
     async fetchAll() {
         return await fetch('http://localhost:3000/api/products')
@@ -12,68 +11,43 @@ class ServiceProduct extends Product {
         return await fetch(`http://localhost:3000/api/products/${productId}`)
             .then(data => data.json())
             .then(product => new Product(product));
-
     }
 
-    async send(url = '', data = {}) {
+    async send(data) {
         console.log(data);
-        const response = await fetch(url, {
+        return await fetch('http://localhost:3000/api/products/order', {
             method: 'POST',
             mode: 'cors',
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application.json'
+                // 'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ data })
+            body: JSON.stringify(data)
         })
+            .then(res => res.json())
             .then(data => {
                 console.log(data);
-                localStorage.setItem("order", data.orderId)
+                localStorage.setItem("orderId", data);
+                document.location.href = "confirmation.html?order=" + data.orderId;
+
             })
             .catch(err => {
                 console.log(err);
             })
     }
 
-
-
-    // async sendOrder(contact) {
-    //     const config = {
-    //         method: 'POST',
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ contact, shoppingBag: this.getShoppingProductId() }),
-    //         json: true
-    //     }
-    //     const res = await fetch('http://localhost:3000/api/products/order', config)
-    //         .then(response => response.json())
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             console.log(data);
-    //         })
-    //         .catch(err => {
-    //             console.error("error !");
-    //         });
-    // }
-
     // Add product in the localStorage
     addToShoppingList(product) {
         let shoppingList = this.getShoppingList();
-
         shoppingList.push(product);
         this.saveshoppingList(shoppingList);
-
     }
 
     // Update quantities of element in the localStorage 
     updateProduct(shoppingListUpdate) {
         let shoppingList = shoppingListUpdate;
-
         this.saveshoppingList(shoppingList);
         return location.reload();
-
     }
 
     // Remove an element in the localStorage
@@ -105,9 +79,5 @@ class ServiceProduct extends Product {
     // Save shoppingList in the localStorage
     saveshoppingList(shoppingList) {
         localStorage.setItem("shoppingList", JSON.stringify(shoppingList))
-    }
-
-    saveOrderList(data) {
-        localStorage.setItem("order", JSON.stringify(data))
     }
 }

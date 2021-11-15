@@ -1,9 +1,7 @@
 async function shoppingList() {
   var serviceProduct = new ServiceProduct();
   const cart = await Promise.all(serviceProduct.getShoppingList());
-  // console.log(cart);
   const cartParse = cart.map(product => new Product(product));
-  // console.log(cartParse);
 
   for (let prodCart of cartParse) {
     document.getElementById("cart__items").innerHTML +=
@@ -35,8 +33,8 @@ async function shoppingList() {
     function getAllProductQuantity() {
       const getTotalProducts = document.querySelector(".itemQuantity");
       const totalProducts = getTotalProducts.value;
-
       let tab = [];
+
       for (let prod of cart) {
         const total = prod.quantity;
         tab.push(total)
@@ -44,15 +42,10 @@ async function shoppingList() {
 
       let tabParse = [];
       const formatResult = Object.values(tab);
-      // console.log(formatResult);
       formatResult.forEach(elements => {
-        // console.log(elements);
         const resultParse = parseInt(elements);
         tabParse.push(resultParse);
-        // console.log(tabParse);
-
         const reducer = (accumulator, curr) => accumulator + curr;
-        // console.log(reducer);
         const showAllQuantity = tabParse.reduce(reducer);
         document.getElementById('totalQuantity').innerHTML = showAllQuantity;
 
@@ -66,7 +59,6 @@ async function shoppingList() {
       var getEl = null;
 
       document.querySelectorAll('.deleteItem').forEach(el => {
-        // console.log(el.dataset.id);
         el.addEventListener('click', function (e) {
           e.preventDefault();
           getEl = cart.filter(el => el.id === this.dataset.id);
@@ -95,10 +87,8 @@ async function shoppingList() {
         for (let el of productFilter) {
           var qtyParse = parseInt(el.quantity);
           var priceParse = parseInt(el.price);
-          // console.log(qtyParse * priceParse);
           totalAmount = qtyParse * priceParse;
           arrTotalAmount.push(totalAmount);
-          // console.log(arrTotalAmount);
 
           const reducer = (accumulator, curr) => accumulator + curr;
           const showAllQuantity = arrTotalAmount.reduce(reducer);
@@ -124,12 +114,8 @@ async function shoppingList() {
           productToUpdate = cart.filter(function (product, i) {
             return ((product["id"] == dataId && product["option"] == dataOption));
           })
-          // console.log(el.value);
           for (let prod of productToUpdate) {
-            // console.log(prod.quantity);
             prod.quantity = el.value;
-            // console.log(prod);
-            // console.log(cart);
             serviceProduct.updateProduct(cart);
           }
         })
@@ -146,7 +132,7 @@ async function shoppingList() {
   function validForm() {
     // Get inputs values
     const name = document.getElementById('lastName');
-    name.addEventListener('change', function (e) { e.preventDefault() });
+    lastName.addEventListener('change', function (e) { e.preventDefault() });
     const firstName = document.getElementById('firstName');
     firstName.addEventListener('change', function (e) { e.preventDefault() });
     const address = document.getElementById('address')
@@ -166,15 +152,10 @@ async function shoppingList() {
     let dataOrder = [];
 
     const verifRegFirstName = validNameInput(firstName.value)
-    // console.log(verifRegFirstName + " " + "prénom");
-    const verifRegName = validNameInput(name.value);
-    // console.log(verifRegName + " " + "nom");
+    const verifRegName = validNameInput(lastName.value);
     const verifRegAddress = validAdressInput(address.value);
-    // console.log(verifRegAddress + " " + "adresse");
     const verifRegCity = validAdressInput(city.value);
-    // console.log(verifRegCity + " " + "ville");
     const verifRegEmail = validEmailInput(email.value);
-    // console.log(verifRegEmail + " " + "email");
 
     // Validate firstname input value
     if (firstName.value.length <= 2 || firstName.value.length >= 24) {
@@ -189,7 +170,7 @@ async function shoppingList() {
     }
 
     // Validate name input value
-    if (name.value.length <= 2 || name.value.length >= 24) {
+    if (lastName.value.length <= 2 || lastName.value.length >= 24) {
       arrError.push("Votre Nom doit comporter entre 2 et 20 caractères !");
       nameErrorMsg.innerText = arrError;
       return false
@@ -223,29 +204,35 @@ async function shoppingList() {
 
     let contact = {
       firstName: firstName.value,
-      name: name.value,
+      lastName: lastName.value,
       address: address.value,
       city: city.value,
       email: email.value,
     };
     return contact;
   }
-  // validForm();
 
   function validOrder() {
-    const shoppingBag = serviceProduct.getShoppingProductId();
+    let products = [];
+
+    const shoppingBag = serviceProduct.getShoppingList();
+    for (let prod of shoppingBag) {
+      if (prod.id != 'undefined') {
+        products.push(prod.id);
+      }
+    }
     const order = document.querySelector("#order");
     order.addEventListener('click', async function (e) {
       e.preventDefault()
       const contact = validForm();
-      if (shoppingBag != false || contact != false) {
+      // const products = shoppingBag.sort()
+      if (products != false || contact != false) {
         let dataOrder = {
-          contact: contact,
-          productId: shoppingBag
+          contact,
+          products
         }
 
-        // console.log(dataOrder);
-        serviceProduct.send('http://localhost:3000/api/products/order', { dataOrder })
+        serviceProduct.send(dataOrder)
       }
     })
   }

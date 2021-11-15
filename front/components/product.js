@@ -1,16 +1,11 @@
-
 // Get the id, return the product and this details
 async function showProduct() {
   const prod = new ServiceProduct();
-
   let params = (new URL(document.location)).searchParams;
   const productId = params.get("_id");
-
   const product = await prod.fetchOne(productId);
-  // console.log(product);
 
   document.getElementById("item_productPage").innerHTML +=
-
     `
       <article>
         <div class="item__img">
@@ -90,28 +85,17 @@ async function showProduct() {
         const getEl = prodList.filter(el => el.id === singleProduct.id);
         if (getEl != null) {
           var prodExist = getEl.filter(el => el.option === singleProduct.option);
-          console.log(prodExist);
 
           if (prodExist != false) {
-
             for (var el of prodExist) {
-              console.log("existe déjà !");
-              console.log(el.option + " " + el.quantity);
               // parse quantity for incremement product
               const getQuantity = parseInt(el.quantity);
-              console.log(getQuantity);
-              // recuperer la valeur input de quantité et l'ajouter à qetQuantity avant de l'injecter dans l'objet
               const addQty = parseInt(quantity);
-              console.log(addQty);
-              console.log(quantity);
               const showQty = addQty + getQuantity;
-              console.log(showQty);
               el.quantity = showQty.toString();
-              console.log(prodList);
               prod.updateProduct(prodList);
             }
           } else {
-            console.log("Nouveau produit !");
             prod.addToShoppingList(singleProduct);
           }
         }

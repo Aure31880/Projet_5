@@ -1,7 +1,6 @@
 async function showProducts() {
     const prod = new ServiceProduct();
     const result = await prod.fetchAll();
-    console.log(result);
 
     for (let product of result) {
         document.getElementById("items").innerHTML +=
