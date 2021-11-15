@@ -15,6 +15,49 @@ class ServiceProduct extends Product {
 
     }
 
+    async send(url = '', data = {}) {
+        console.log(data);
+        const response = await fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application.json'
+            },
+            body: JSON.stringify({ data })
+        })
+            .then(data => {
+                console.log(data);
+                localStorage.setItem("order", data.orderId)
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+
+
+    // async sendOrder(contact) {
+    //     const config = {
+    //         method: 'POST',
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({ contact, shoppingBag: this.getShoppingProductId() }),
+    //         json: true
+    //     }
+    //     const res = await fetch('http://localhost:3000/api/products/order', config)
+    //         .then(response => response.json())
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             console.log(data);
+    //         })
+    //         .catch(err => {
+    //             console.error("error !");
+    //         });
+    // }
+
     // Add product in the localStorage
     addToShoppingList(product) {
         let shoppingList = this.getShoppingList();
@@ -62,5 +105,9 @@ class ServiceProduct extends Product {
     // Save shoppingList in the localStorage
     saveshoppingList(shoppingList) {
         localStorage.setItem("shoppingList", JSON.stringify(shoppingList))
+    }
+
+    saveOrderList(data) {
+        localStorage.setItem("order", JSON.stringify(data))
     }
 }

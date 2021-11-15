@@ -1,13 +1,9 @@
-
 async function shoppingList() {
-
-  const serviceProduct = new ServiceProduct();
-
+  var serviceProduct = new ServiceProduct();
   const cart = await Promise.all(serviceProduct.getShoppingList());
   // console.log(cart);
   const cartParse = cart.map(product => new Product(product));
   // console.log(cartParse);
-
 
   for (let prodCart of cartParse) {
     document.getElementById("cart__items").innerHTML +=
@@ -73,9 +69,7 @@ async function shoppingList() {
         // console.log(el.dataset.id);
         el.addEventListener('click', function (e) {
           e.preventDefault();
-
           getEl = cart.filter(el => el.id === this.dataset.id);
-
           if (getEl !== null) {
             option = getEl.find(el => el.option === this.dataset.option);
 
@@ -88,15 +82,12 @@ async function shoppingList() {
     }
     removeItem();
 
-
     function getTotalAmount() {
-      var productFilter = null;
-      var totalAmount = null;
+      let productFilter = null;
+      let totalAmount = null;
       let arrTotalAmount = [];
 
       cart.forEach(product => {
-        // console.log(product);
-
         productFilter = cartParse.filter(function (prod, property) {
           return ((prod["id"] === product.id && prod["option"] === product.option && prod["quantity"] === product.quantity && prod["price"] === product.price));
         })
@@ -152,81 +143,113 @@ async function shoppingList() {
     }
   }
 
-  function regexFormName(value) {
-    return /(^[A-Z])/.test(value)
-  }
-
   function validForm() {
-    // var regFirstName = /(^[A-Z]+[a-zàáâãäåòóôõöøèéêëçìíîïùúûüÿñ]+)$/g
-    // var regName = /(^[A-Z]+[a-zàáâãäåòóôõöøèéêëçìíîïùúûüÿñ]+)$/g
-    // var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    var getName = document.getElementById('lastName');
-    var firstName = document.getElementById('firstName');
-    var address = document.getElementById('address');
-    var email = document.getElementById('email');
-    var firstNameErrorMsg = document.getElementById('firstNameErrorMsg');
-    var nameErrorMsg = document.getElementById('lastNameErrorMsg');
-    var addressErrorMsg = document.getElementById('addressErrorMsg');
-    var verifRegFirstName = null;
-    var verifRegName = null;
-    var verifRegEmail = null;
+    // Get inputs values
+    const name = document.getElementById('lastName');
+    name.addEventListener('change', function (e) { e.preventDefault() });
+    const firstName = document.getElementById('firstName');
+    firstName.addEventListener('change', function (e) { e.preventDefault() });
+    const address = document.getElementById('address')
+    address.addEventListener('change', function (e) { e.preventDefault() });
+    const city = document.getElementById('city')
+    city.addEventListener('change', function (e) { e.preventDefault() });
+    const email = document.getElementById('email')
+    email.addEventListener('change', function (e) { e.preventDefault() });
+    // Get errors messages
+    const firstNameErrorMsg = document.getElementById('firstNameErrorMsg');
+    const nameErrorMsg = document.getElementById('lastNameErrorMsg');
+    const addressErrorMsg = document.getElementById('addressErrorMsg');
+    const cityErrorMsg = document.getElementById('cityErrorMsg');
+    const emailErrorMsg = document.getElementById('emailErrorMsg');
 
-    // let input = document.querySelectorAll("div.cart__order__form__question > input[name]");
-    // console.log(input);
-    let subOrder = document.querySelectorAll('#order');
-    subOrder.forEach(elBtn => {
-      elBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        var arrError = [];
-        verifRegFirstName = validNameInput(firstName.value)
-        // console.log(verifRegFirstName);
-        verifRegName = validNameInput(getName.value);
-        // console.log(verifRegName);
-        verifRegCity = validAdressInput(address.value);
-        console.log(verifRegCity);
-        verifRegEmail = validEmailInput(email.value);
-        console.log(verifRegEmail);
+    let arrError = [];
+    let dataOrder = [];
 
+    const verifRegFirstName = validNameInput(firstName.value)
+    // console.log(verifRegFirstName + " " + "prénom");
+    const verifRegName = validNameInput(name.value);
+    // console.log(verifRegName + " " + "nom");
+    const verifRegAddress = validAdressInput(address.value);
+    // console.log(verifRegAddress + " " + "adresse");
+    const verifRegCity = validAdressInput(city.value);
+    // console.log(verifRegCity + " " + "ville");
+    const verifRegEmail = validEmailInput(email.value);
+    // console.log(verifRegEmail + " " + "email");
 
-        if (firstName.value.length <= 2 || firstName.value.length >= 24) {
-          arrError.push("Votre prénom doit comporter entre 2 et 20 caractères !");
-          firstNameErrorMsg.innerText = arrError;
-          return false
-        }
+    // Validate firstname input value
+    if (firstName.value.length <= 2 || firstName.value.length >= 24) {
+      arrError.push("Votre prénom doit comporter entre 2 et 20 caractères !");
+      firstNameErrorMsg.innerText = arrError;
+      return false
+    }
+    if (verifRegFirstName != true) {
+      arrError.push("Votre prénom ne doit pas comporter de chiffre ou de caractères spéciaux !");
+      firstNameErrorMsg.innerText = arrError;
+      return false
+    }
 
-        if (verifRegFirstName != true) {
-          arrError.push("Votre prénom ne doit pas comporter de chiffre ou de caractères spéciaux !");
-          firstNameErrorMsg.innerText = arrError;
-          return false
-        }
+    // Validate name input value
+    if (name.value.length <= 2 || name.value.length >= 24) {
+      arrError.push("Votre Nom doit comporter entre 2 et 20 caractères !");
+      nameErrorMsg.innerText = arrError;
+      return false
+    }
+    if (verifRegName != true) {
+      arrError.push("Votre Nom ne doit pas comporter de chiffre ou de caractères spéciaux !");
+      nameErrorMsg.innerText = arrError;
+      return false
+    }
 
+    // Validate adress input value
+    if (verifRegAddress != true) {
+      arrError.push("Vous devez renseigner une adresse valide !");
+      addressErrorMsg.innerText = arrError;
+      return false
+    }
 
-        if (getName.value.length <= 2 || getName.value.length >= 24) {
-          arrError.push("Votre Nom doit comporter entre 2 et 20 caractères !");
-          nameErrorMsg.innerText = arrError;
-          return false
-        }
-        if (verifRegName != true) {
-          arrError.push("Votre Nom ne doit pas comporter de chiffre ou de caractères spéciaux !");
-          nameErrorMsg.innerText = arrError;
-          return false
-        }
+    // Validate city input value
+    if (verifRegCity != true) {
+      arrError.push("Vous devez renseigner une ville valide !");
+      cityErrorMsg.innerText = arrError;
+      return false
+    }
 
-        if (verifRegCity != true) {
-          arrError.push("Vous devez renseigner une adresse valide !");
-          addressErrorMsg.innerText = arrError;
-        }
+    // Validate city input value
+    if (verifRegEmail != true) {
+      arrError.push("Vous devez renseigner une adresse email valide !");
+      emailErrorMsg.innerText = arrError;
+      return false
+    }
 
-        if (arrError.length >= 0) {
-          e.preventDefault();
-          return arrError.join(', ');
-        }
-      })
-    })
-
-
+    let contact = {
+      firstName: firstName.value,
+      name: name.value,
+      address: address.value,
+      city: city.value,
+      email: email.value,
+    };
+    return contact;
   }
-  validForm();
+  // validForm();
+
+  function validOrder() {
+    const shoppingBag = serviceProduct.getShoppingProductId();
+    const order = document.querySelector("#order");
+    order.addEventListener('click', async function (e) {
+      e.preventDefault()
+      const contact = validForm();
+      if (shoppingBag != false || contact != false) {
+        let dataOrder = {
+          contact: contact,
+          productId: shoppingBag
+        }
+
+        // console.log(dataOrder);
+        serviceProduct.send('http://localhost:3000/api/products/order', { dataOrder })
+      }
+    })
+  }
+  validOrder();
 
   function validNameInput(value) {
     return /(^[A-Z]+[a-zàáâãäåòóôõöøèéêëçìíîïùúûüÿñ]+)$/g.test(value);
@@ -240,7 +263,4 @@ async function shoppingList() {
     return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value);
   }
 }
-
 shoppingList();
-
-

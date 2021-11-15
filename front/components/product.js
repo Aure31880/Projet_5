@@ -59,26 +59,18 @@ async function showProduct() {
   // Get color array for select
   function getColor() {
     for (let color of product.colors) {
-      showColor.innerHTML +=
-        `
-                    <option value="${color}">${color}</option>
-
-                `
+      showColor.innerHTML += `<option value="${color}">${color}</option>`
     }
   }
-
   getColor();
 
   function addProduct(item) {
-
     // each click get product info and bind singleProduct with values
     document.querySelectorAll("#addToCart").forEach(el => {
       el.addEventListener('click', function (e) {
         e.preventDefault();
-
         // Get color option selected by user
         const colorChoice = showColor.value;
-
         // get quantity selected by user
         const qt = document.getElementById("quantity")
         const quantity = qt.value;
@@ -92,13 +84,10 @@ async function showProduct() {
           price: product.price.toString(),
           quantity: quantity
         };
-        // console.log(singleProduct);
 
         const prodList = prod.getShoppingList();
         console.log(prodList);
-
         const getEl = prodList.filter(el => el.id === singleProduct.id);
-
         if (getEl != null) {
           var prodExist = getEl.filter(el => el.option === singleProduct.option);
           console.log(prodExist);
@@ -107,7 +96,6 @@ async function showProduct() {
 
             for (var el of prodExist) {
               console.log("existe déjà !");
-
               console.log(el.option + " " + el.quantity);
               // parse quantity for incremement product
               const getQuantity = parseInt(el.quantity);
@@ -116,29 +104,22 @@ async function showProduct() {
               const addQty = parseInt(quantity);
               console.log(addQty);
               console.log(quantity);
-
               const showQty = addQty + getQuantity;
               console.log(showQty);
               el.quantity = showQty.toString();
               console.log(prodList);
-
               prod.updateProduct(prodList);
-
             }
           } else {
             console.log("Nouveau produit !");
-
             prod.addToShoppingList(singleProduct);
-
           }
         }
       })
     })
   }
   addProduct();
-
 }
-
 showProduct();
 
 
