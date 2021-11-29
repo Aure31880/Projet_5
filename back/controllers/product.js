@@ -47,6 +47,7 @@ exports.getOneProduct = (req, res, next) => {
  *
  */
 exports.orderProducts = (req, res, next) => {
+  console.log(req.body);
   if (!req.body.contact ||
     !req.body.contact.firstName ||
     !req.body.contact.lastName ||
@@ -54,7 +55,7 @@ exports.orderProducts = (req, res, next) => {
     !req.body.contact.city ||
     !req.body.contact.email ||
     !req.body.products) {
-    console.log(req.body);
+
     return res.status(400).send(new Error('Bad request!'));
   }
   let queries = [];

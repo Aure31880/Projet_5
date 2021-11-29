@@ -3,14 +3,20 @@ class ServiceProduct extends Product {
     async fetchAll() {
         return await fetch('http://localhost:3000/api/products')
             .then(data => data.json())
-            .then(products => products.map(product => new Product(product)));
+            .then(products => products.map(product => new Product(product)))
+            .catch(function (error) {
+                console.log('Il y a eu un problème avec l\'opération fetch: ' + ' ' + error.message);
+            })
     }
 
     // Get one item by id
     async fetchOne(productId) {
         return await fetch(`http://localhost:3000/api/products/${productId}`)
             .then(data => data.json())
-            .then(product => new Product(product));
+            .then(product => new Product(product))
+            .catch(function (error) {
+                console.log('Il y a eu un problème avec l\'opération fetch: ' + ' ' + error.message);
+            })
     }
 
     async send(data) {

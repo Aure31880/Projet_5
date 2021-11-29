@@ -81,7 +81,6 @@ async function showProduct() {
         };
 
         const prodList = prod.getShoppingList();
-        console.log(prodList);
         const getEl = prodList.filter(el => el.id === singleProduct.id);
         if (getEl != null) {
           var prodExist = getEl.filter(el => el.option === singleProduct.option);
