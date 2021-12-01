@@ -92,10 +92,13 @@ async function showProduct() {
               const addQty = parseInt(quantity);
               const showQty = addQty + getQuantity;
               el.quantity = showQty.toString();
+
               prod.updateProduct(prodList);
+              alert("votre produit à bien été ajouté !")
             }
           } else {
             prod.addToShoppingList(singleProduct);
+            alert("votre produit à bien été ajouté !")
           }
         }
       })

@@ -1,20 +1,49 @@
-async function showProducts() {
+showProducts();
+
+// Get All product in API
+async function getProducts() {
     const prod = new ServiceProduct();
     const result = await prod.fetchAll();
 
-    for (let product of result) {
-        document.getElementById("items").innerHTML +=
-            `
-                <a href="./product.html?_id=${product._id}">
-                    <article>
-                        <img class="home_item_img" src="${product.imageUrl}">
-                        <h3 class="productName"> ${product.name}</h3 >
-                        <p class="productDescription">${product.description}</p>
-                        <p>${product.price}€</p>
-                    </article >
-                </a >
-            
-            `
-    }
+    return result;
 }
-showProducts();
+
+// Display product list
+async function showProducts() {
+    const result = await getProducts()
+        .then(productList => {
+            for (let product of productList) {
+                console.log(product);
+
+                // Create element anchor 
+                let items = document.getElementById("items");
+                let anchorBloc = document.createElement("a");
+                items.appendChild(anchorBloc);
+                anchorBloc.href = `product.html?id=${product._id}`
+
+
+
+                // Create element article
+                let article = document.createElement("article");
+                anchorBloc.appendChild(article);
+
+                // Create element image
+                let newImg = document.createElement("img");
+                article.appendChild(newImg);
+                newImg.src = product.imageUrl;
+
+                // Create element title
+                let newTitle = document.createElement("h3");
+                article.appendChild(newTitle);
+                newTitle.classList.add("productName");
+                newTitle.innerHTML = product.name;
+
+                // Create element for description
+                let newDescribe = document.createElement("p");
+                article.appendChild(newDescribe);
+                newDescribe.classList.add("productDescription");
+                newDescribe.innerHTML = product.description;
+
+            }
+        })
+}

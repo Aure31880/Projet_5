@@ -30,28 +30,27 @@ async function shoppingList() {
 
             `
 
-    function getAllProductQuantity() {
-      const getTotalProducts = document.querySelector(".itemQuantity");
-      const totalProducts = getTotalProducts.value;
-      let tab = [];
+    // function getAllProductQuantity() {
+    //   const getTotalProducts = document.querySelector(".itemQuantity");
+    //   const totalProducts = getTotalProducts.value;
+    //   let tab = [];
 
-      for (let prod of cart) {
-        const total = prod.quantity;
-        tab.push(total)
-      }
+    //   for (let prod of cart) {
+    //     const total = prod.quantity;
+    //     tab.push(total)
+    //   }
 
-      let tabParse = [];
-      const formatResult = Object.values(tab);
-      formatResult.forEach(elements => {
-        const resultParse = parseInt(elements);
-        tabParse.push(resultParse);
-        const reducer = (accumulator, curr) => accumulator + curr;
-        const showAllQuantity = tabParse.reduce(reducer);
-        document.getElementById('totalQuantity').innerHTML = showAllQuantity;
-
-      });
-    }
-    getAllProductQuantity();
+    //   let tabParse = [];
+    //   const formatResult = Object.values(tab);
+    //   formatResult.forEach(elements => {
+    //     const resultParse = parseInt(elements);
+    //     tabParse.push(resultParse);
+    //     const reducer = (accumulator, curr) => accumulator + curr;
+    //     const showAllQuantity = tabParse.reduce(reducer);
+    // document.getElementById('totalQuantity').innerHTML = showAllQuantity;
+    //   });
+    // }
+    // getAllProductQuantity();
 
     // Remove one Product from localStorage
     function removeItem(item) {
@@ -132,15 +131,11 @@ async function shoppingList() {
   function validForm() {
     // Get inputs values
     const name = document.getElementById('lastName');
-    lastName.addEventListener('change', function (e) { e.preventDefault() });
     const firstName = document.getElementById('firstName');
-    firstName.addEventListener('change', function (e) { e.preventDefault() });
     const address = document.getElementById('address')
-    address.addEventListener('change', function (e) { e.preventDefault() });
     const city = document.getElementById('city')
-    city.addEventListener('change', function (e) { e.preventDefault() });
     const email = document.getElementById('email')
-    email.addEventListener('change', function (e) { e.preventDefault() });
+
     // Get errors messages
     const firstNameErrorMsg = document.getElementById('firstNameErrorMsg');
     const nameErrorMsg = document.getElementById('lastNameErrorMsg');
@@ -231,7 +226,6 @@ async function shoppingList() {
           contact,
           products
         }
-
         serviceProduct.send(dataOrder)
       }
     })
@@ -251,3 +245,25 @@ async function shoppingList() {
   }
 }
 shoppingList();
+
+function getAllProductQuantity() {
+  const getTotalProducts = document.querySelector(".itemQuantity");
+  const totalProducts = getTotalProducts.value;
+  let tab = [];
+
+  for (let prod of cart) {
+    const total = prod.quantity;
+    tab.push(total)
+  }
+
+  let tabParse = [];
+  const formatResult = Object.values(tab);
+  formatResult.forEach(elements => {
+    const resultParse = parseInt(elements);
+    tabParse.push(resultParse);
+    const reducer = (accumulator, curr) => accumulator + curr;
+    const showAllQuantity = tabParse.reduce(reducer);
+    document.getElementById('totalQuantity').innerHTML = showAllQuantity;
+  });
+}
+// getAllProductQuantity();
