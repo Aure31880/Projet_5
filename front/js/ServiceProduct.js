@@ -1,4 +1,4 @@
-class ServiceProduct extends Product {
+class ServiceProduct {
     // Get all items
     async fetchAll() {
         return await fetch('http://localhost:3000/api/products')
@@ -25,7 +25,7 @@ class ServiceProduct extends Product {
             method: 'POST',
             mode: 'cors',
             headers: {
-                // 'Accept': 'application/json',
+                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
