@@ -35,7 +35,7 @@ class ServiceProduct {
                 console.log(data);
                 localStorage.setItem("orderId", data);
                 document.location.href = "confirmation.html?order=" + data.orderId;
-
+                this.clearShoppingList();
             })
             .catch(err => {
                 console.log(err);
@@ -85,5 +85,9 @@ class ServiceProduct {
     // Save shoppingList in the localStorage
     saveshoppingList(shoppingList) {
         localStorage.setItem("shoppingList", JSON.stringify(shoppingList))
+    }
+
+    clearShoppingList() {
+        localStorage.clear();
     }
 }
