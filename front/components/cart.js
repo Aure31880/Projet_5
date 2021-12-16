@@ -138,27 +138,28 @@ async function getTotalAmountByProduct(arrInfo) {
   return showAllQuantity;
 }
 
-// Get the total quantity of product
-function getAllProductQuantity(product) {
-  const getTotalProducts = document.querySelector(".itemQuantity");
-  const totalProducts = getTotalProducts.value;
-  let tab = [];
+// Get Total product in cart
+async function getAllProductQuantity() {
+  return await getShoppingBag()
+    .then(result => {
+      let arrQty = [];
+      for (let prod of result) {
+        const qty = prod.quantity;
+        arrQty.push(qty);
+      }
 
-  for (let prod of product) {
-    const total = prod.quantity;
-    tab.push(total)
-  }
-
-  let tabParse = [];
-  const formatResult = Object.values(tab);
-  formatResult.forEach(elements => {
-    const resultParse = parseInt(elements);
-    tabParse.push(resultParse);
-    const reducer = (accumulator, curr) => accumulator + curr;
-    const showAllQuantity = tabParse.reduce(reducer);
-    document.getElementById('totalQuantity').innerHTML = showAllQuantity;
-  });
+      let tabParse = [];
+      const formatResult = Object.values(arrQty);
+      formatResult.forEach(elements => {
+        const resultParse = parseInt(elements);
+        tabParse.push(resultParse);
+        const reducer = (accumulator, curr) => accumulator + curr;
+        const showAllQuantity = tabParse.reduce(reducer);
+        document.getElementById("totalQuantity").innerHTML = showAllQuantity;
+      })
+    })
 }
+getAllProductQuantity();
 
 // Remove one Product from localStorage
 async function removeItem(prod) {
