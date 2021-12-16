@@ -20,7 +20,6 @@ class ServiceProduct {
     }
 
     async send(data) {
-        console.log(data);
         return await fetch('http://localhost:3000/api/products/order', {
             method: 'POST',
             mode: 'cors',
@@ -87,6 +86,7 @@ class ServiceProduct {
         localStorage.setItem("shoppingList", JSON.stringify(shoppingList))
     }
 
+    // Clear localStorage
     clearShoppingList() {
         localStorage.clear();
     }

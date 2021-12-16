@@ -67,6 +67,10 @@ async function displayShoppingList() {
         newTitlePrice.innerText = prodInfo.name;
         newCartItemContentTitlePrice.appendChild(newTitlePrice);
 
+        let newColor = document.createElement("p");
+        newColor.innerText = prod.option;
+        newCartItemContentTitlePrice.appendChild(newColor);
+
         let newPrice = document.createElement("p");
         newPrice.innerText = prodInfo.price + '€';
         newCartItemContentTitlePrice.appendChild(newPrice);
